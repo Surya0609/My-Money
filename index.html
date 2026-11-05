@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>My Money  — Personal Finance, UPI & Split Tracker</title>
+  <title>My Money</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -152,22 +152,14 @@
 </head>
 <body class="min-h-screen pb-28 text-zinc-100 select-none">
 
-  <!-- TOP iOS STATUS & HEADER BAR -->
+  <!-- TOP HEADER BAR -->
   <header class="sticky top-0 z-30 ios-header-blur px-4 sm:px-6 py-3.5">
     <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 flex items-center justify-center text-xl shadow-lg shadow-blue-500/20 border border-white/20">
-          
+          💰
         </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white">My Money</h1>
-            <span id="syncStatusBadge" class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
-              <span>💾</span> <span id="syncStatusText">Saved Locally</span>
-            </span>
-          </div>
-          <p class="text-xs text-zinc-400">iOS Personal Finance • UPI • Cards • Friend Splits</p>
-        </div>
+        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white">My Money</h1>
       </div>
 
       <!-- QUICK ACTION PILLS -->
@@ -181,13 +173,6 @@
         <button id="btnQuickPayCC" class="ios-btn px-3 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-semibold text-xs sm:text-sm border border-amber-500/30 flex items-center gap-1.5" title="Pay Credit Card Bill">
           <span>💳</span> <span class="hidden md:inline">Pay CC Bill</span>
         </button>
-        <button id="btnExportJSON" class="ios-btn px-3 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-semibold text-xs sm:text-sm border border-emerald-500/30 flex items-center gap-1.5" title="Save Backup File">
-          <span>💾</span> <span class="hidden md:inline">Save File</span>
-        </button>
-        <label class="ios-btn px-3 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-semibold text-xs sm:text-sm border border-white/10 flex items-center gap-1.5 cursor-pointer" title="Load Saved File">
-          <span>📂</span> <span class="hidden lg:inline">Load</span>
-          <input id="inputImportJSON" type="file" accept=".json" class="hidden" />
-        </label>
       </div>
     </div>
   </header>
@@ -199,7 +184,7 @@
     <div class="flex items-center justify-between flex-wrap gap-3">
       <div class="segmented-pill overflow-x-auto max-w-full">
         <button data-tab="dashboard" class="nav-tab-btn segmented-item active flex items-center gap-1.5">
-          <span>🏠</span> <span>Overview</span>
+          <span>🏠</span> <span>Dashboard</span>
         </button>
         <button data-tab="transactions" class="nav-tab-btn segmented-item flex items-center gap-1.5">
           <span>⚡</span> <span>Transactions</span>
@@ -214,7 +199,9 @@
         <button data-tab="analytics" class="nav-tab-btn segmented-item flex items-center gap-1.5">
           <span>📊</span> <span>Analytics</span>
         </button>
-
+        <button data-tab="cloud" class="nav-tab-btn segmented-item flex items-center gap-1.5">
+          <span>☁️</span> <span>GitHub Sync</span>
+        </button>
       </div>
 
       <!-- MONTH FILTER -->
@@ -240,14 +227,14 @@
           </div>
           <div id="statLiquidBalance" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">₹0</div>
           <div id="statLiquidSub" class="text-xs text-zinc-400 mt-1.5 flex items-center gap-1">
-            <span>Across 3 banks & cash</span>
+            <span>0 accounts</span>
           </div>
         </div>
 
         <!-- Personal Monthly Spending (Excludes Friends' Split Share) -->
         <div class="ios-glass rounded-3xl p-5 relative overflow-hidden">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400">📉 My Spend (Period)</span>
+            <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400">📉 My Spend</span>
             <span class="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-base">🔥</span>
           </div>
           <div id="statMyExpenses" class="text-2xl sm:text-3xl font-extrabold text-rose-400 tracking-tight">₹0</div>
@@ -264,7 +251,7 @@
           </div>
           <div id="statCCAvailable" class="text-2xl sm:text-3xl font-extrabold text-amber-300 tracking-tight">₹0</div>
           <div id="statCCUsedSub" class="text-xs text-zinc-400 mt-1.5">
-            Total Unpaid Bills: <span class="text-rose-400 font-semibold">₹0</span>
+            Unpaid CC Bills: <span class="text-rose-400 font-semibold">₹0</span>
           </div>
         </div>
 
@@ -295,16 +282,16 @@
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h2 class="text-base font-bold text-white flex items-center gap-2">
-              <span>📊</span> <span>What I've Spent On (At-a-Glance)</span>
+              <span>📊</span> <span>What I've Spent On</span>
             </h2>
-            <p class="text-xs text-zinc-400">Your personal spending by category & payment mode (UPI / Credit Card / Cash)</p>
+            <p class="text-xs text-zinc-400">Personal spending breakdown by category & payment mode (UPI / Credit Card / Cash)</p>
           </div>
           <div id="dashModePills" class="flex flex-wrap items-center gap-1.5"></div>
         </div>
         <div id="dashboardSpendBreakdown" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1"></div>
       </div>
 
-      <!-- APPLE WALLET STYLE ACCOUNTS & SHARED CREDIT POOL STRIP -->
+      <!-- ACCOUNTS & SHARED CREDIT POOL STRIP -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <!-- Bank Accounts & Cash Column -->
         <div class="lg:col-span-6 ios-glass rounded-3xl p-5 space-y-4">
@@ -324,7 +311,7 @@
 
         <!-- Shared Credit Card Pools & Individual Cards -->
         <div class="lg:col-span-6 ios-glass rounded-3xl p-5 space-y-4">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between flex-wrap gap-2">
             <div>
               <h2 class="text-base font-bold text-white flex items-center gap-2">
                 <span>💳</span> <span>Credit Cards & Limit Pools</span>
@@ -332,11 +319,14 @@
               <p class="text-xs text-zinc-400">Clubbed shared limit & standalone cards</p>
             </div>
             <div class="flex items-center gap-1.5">
-              <button id="btnDashPayCC" class="ios-btn text-xs font-semibold px-2.5 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                💸 Pay Bill
+              <button id="btnDashAddPool" class="ios-btn text-xs font-semibold px-2.5 py-1.5 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                🔗 + Pool
               </button>
               <button id="btnDashAddCC" class="ios-btn text-xs font-semibold px-2.5 py-1.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30">
                 ➕ Card
+              </button>
+              <button id="btnDashPayCC" class="ios-btn text-xs font-semibold px-2.5 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                💸 Pay Bill
               </button>
             </div>
           </div>
@@ -408,14 +398,12 @@
           </select>
           <select id="txModeFilter" class="ios-input text-xs">
             <option value="ALL">All Payment Modes (UPI/CC/Cash)</option>
-            <option value="UPI - GPay">🔵 UPI - GPay</option>
-            <option value="UPI - PhonePe">🟣 UPI - PhonePe</option>
-            <option value="UPI - Paytm">💠 UPI - Paytm</option>
-            <option value="UPI Credit Card">⚡ RuPay UPI Credit Card</option>
-            <option value="Credit Card">💳 Credit Card Swipe/Online</option>
+            <option value="UPI">📱 UPI</option>
+            <option value="UPI Credit Card">⚡ UPI Credit Card</option>
+            <option value="Credit Card">💳 Credit Card</option>
             <option value="Debit Card">🏧 Debit Card</option>
             <option value="Cash">💵 Cash</option>
-            <option value="NetBanking / IMPS">🏦 NetBanking / IMPS</option>
+            <option value="Bank Transfer">🏦 Bank Transfer</option>
           </select>
           <select id="txCategoryFilter" class="ios-input text-xs">
             <option value="ALL">All Categories</option>
@@ -441,7 +429,7 @@
             <h2 class="text-lg font-bold text-white flex items-center gap-2">
               <span>🏦</span> <span>Bank Accounts & Cash Wallets</span>
             </h2>
-            <p class="text-xs text-zinc-400">Everything is 100% editable — rename, change opening balance, or add new accounts anytime.</p>
+            <p class="text-xs text-zinc-400">Add your bank accounts and cash wallets with your opening balances.</p>
           </div>
           <button id="btnAccAddBank" class="ios-btn px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold flex items-center gap-1.5">
             <span>➕</span> <span>Add Bank / Cash Account</span>
@@ -457,7 +445,7 @@
             <h2 class="text-lg font-bold text-white flex items-center gap-2">
               <span>🔗</span> <span>Shared Credit Limit Pools (Clubbed Limits)</span>
             </h2>
-            <p class="text-xs text-zinc-400">Cards linked to the same pool share one total usage limit. Spending ₹10 on one reduces available limit for all linked cards.</p>
+            <p class="text-xs text-zinc-400">Create a shared pool for clubbed credit cards so spending on one card reduces the available limit across all linked cards.</p>
           </div>
           <button id="btnAccAddPool" class="ios-btn px-4 py-2 rounded-xl bg-purple-600 text-white text-xs font-semibold flex items-center gap-1.5">
             <span>➕</span> <span>New Shared Limit Pool</span>
@@ -494,7 +482,7 @@
             <h2 class="text-lg font-bold text-white flex items-center gap-2">
               <span>🏷️</span> <span>Expense & Income Categories</span>
             </h2>
-            <p class="text-xs text-zinc-400">Tailored for a 28yo Indian lifestyle (UPI, Rent, Groceries, Bike/Car Servicing & Insurance, Weekend Outings, OTT)</p>
+            <p class="text-xs text-zinc-400">Categories for UPI, Rent, Groceries, Bike/Car Servicing & Insurance, Weekend Outings, Subscriptions</p>
           </div>
           <button id="btnAddCustomCategory" class="ios-btn px-3.5 py-2 rounded-xl bg-zinc-700 hover:bg-zinc-600 text-white text-xs font-semibold flex items-center gap-1.5">
             <span>➕</span> <span>Add Custom Category</span>
@@ -508,7 +496,7 @@
     <!-- VIEW 4: SPLITS, LOANS & DEBT TRACKER       -->
     <!-- ========================================== -->
     <section id="view-debts" class="space-y-6 hidden">
-      <!-- Explanation & Quick Actions Banner -->
+      <!-- Quick Actions Banner -->
       <div class="ios-glass rounded-3xl p-5">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div class="space-y-1">
@@ -516,7 +504,7 @@
               <span>🤝</span> <span>Weekend Splits, Loans & Friend Tally</span>
             </h2>
             <p class="text-xs text-zinc-400 max-w-2xl">
-              Tracks every friend's pending splits & loans separately. "They Owe Me" and "I Owe Them" stay listed independently until you tap <strong class="text-purple-300">⚡ Settle Up / Tally</strong> or record a payback!
+              "They Owe Me" and "I Owe Them" stay listed independently until you tap <strong class="text-purple-300">⚡ Settle Up / Tally</strong> or record a payback.
             </p>
           </div>
           <div class="flex flex-wrap items-center gap-2">
@@ -561,7 +549,7 @@
           <h3 class="text-base font-bold text-white flex items-center gap-2">
             <span>🍕</span> <span>Expense Breakdown by Category</span>
           </h3>
-          <p class="text-xs text-zinc-400">Shows only your true personal share of expenses (excludes friends' split shares)</p>
+          <p class="text-xs text-zinc-400">Shows only your personal share of expenses (excludes friends' split shares)</p>
           <div class="relative h-72">
             <canvas id="chartCategoryPie"></canvas>
           </div>
@@ -571,7 +559,7 @@
           <h3 class="text-base font-bold text-white flex items-center gap-2">
             <span>📱</span> <span>Spend by Payment Mode (UPI vs CC vs Cash)</span>
           </h3>
-          <p class="text-xs text-zinc-400">How you pay across GPay, PhonePe, Credit Cards & Cash</p>
+          <p class="text-xs text-zinc-400">Breakdown across UPI, UPI Credit Card, Credit Card, Debit Card & Cash</p>
           <div class="relative h-72">
             <canvas id="chartPaymentModeBar"></canvas>
           </div>
@@ -587,11 +575,93 @@
       </div>
     </section>
 
+    <!-- ========================================== -->
+    <!-- VIEW 6: GITHUB TOKEN SYNC & DATA           -->
+    <!-- ========================================== -->
+    <section id="view-cloud" class="space-y-6 hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- GitHub Gist Token Sync -->
+        <div class="lg:col-span-7 ios-glass rounded-3xl p-6 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-zinc-800 border border-white/15 flex items-center justify-center text-2xl">
+              🐙
+            </div>
+            <div>
+              <h2 class="text-lg font-bold text-white">GitHub Token Cloud Sync</h2>
+              <p id="ghSyncLogText" class="text-xs text-zinc-400">Sync your data with your private GitHub Gist</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-zinc-300 mb-1">🔑 GitHub Personal Access Token</label>
+              <input id="ghTokenInput" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" class="ios-input text-xs font-mono" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-zinc-300 mb-1">📄 Gist ID</label>
+              <input id="ghGistIdInput" type="text" placeholder="Leave blank first time & click Create New Cloud Gist" class="ios-input text-xs font-mono" />
+            </div>
+            <div class="flex items-center justify-between p-3 rounded-2xl bg-zinc-900/80 border border-white/10">
+              <div>
+                <div class="text-xs font-semibold text-white">⚡ Auto-Sync to GitHub on Every Change</div>
+              </div>
+              <input id="ghAutoSyncToggle" type="checkbox" class="w-5 h-5 accent-blue-500 rounded cursor-pointer" />
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5 pt-2">
+            <button id="btnGhSaveSettings" class="ios-btn px-4 py-2.5 rounded-xl bg-blue-600 text-white text-xs font-semibold">
+              💾 Save Token Config
+            </button>
+            <button id="btnGhCreateGist" class="ios-btn px-4 py-2.5 rounded-xl bg-purple-600 text-white text-xs font-semibold">
+              ✨ Create New Cloud Gist
+            </button>
+            <button id="btnGhPushNow" class="ios-btn px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-semibold">
+              ⬆️ Push Now
+            </button>
+            <button id="btnGhPullNow" class="ios-btn px-4 py-2.5 rounded-xl bg-amber-600 text-white text-xs font-semibold">
+              ⬇️ Pull Now
+            </button>
+          </div>
+        </div>
+
+        <!-- File Export / Import -->
+        <div class="lg:col-span-5 ios-glass rounded-3xl p-6 space-y-4">
+          <h2 class="text-lg font-bold text-white flex items-center gap-2">
+            <span>📦</span> <span>Data Files</span>
+          </h2>
+          <div class="space-y-2.5">
+            <button id="btnExportJSON" class="w-full ios-btn py-3 px-4 rounded-2xl bg-zinc-800 hover:bg-zinc-700 border border-white/10 text-left flex items-center justify-between">
+              <span class="text-xs font-bold text-white">📥 Export JSON File</span>
+              <span class="text-xs text-blue-400 font-semibold">Download →</span>
+            </button>
+
+            <label class="w-full ios-btn py-3 px-4 rounded-2xl bg-zinc-800 hover:bg-zinc-700 border border-white/10 text-left flex items-center justify-between cursor-pointer">
+              <span class="text-xs font-bold text-white">📂 Import JSON File</span>
+              <span class="text-xs text-purple-400 font-semibold">Upload →</span>
+              <input id="inputImportJSON" type="file" accept=".json" class="hidden" />
+            </label>
+
+            <button id="btnExportCSV" class="w-full ios-btn py-3 px-4 rounded-2xl bg-zinc-800 hover:bg-zinc-700 border border-white/10 text-left flex items-center justify-between">
+              <span class="text-xs font-bold text-white">📊 Export CSV</span>
+              <span class="text-xs text-emerald-400 font-semibold">CSV →</span>
+            </button>
+
+            <div class="pt-3 border-t border-white/10 flex justify-end">
+              <button id="btnClearAllZero" class="ios-btn px-3 py-2 rounded-xl bg-rose-500/20 text-rose-300 text-xs font-semibold border border-rose-500/30">
+                🗑️ Wipe All Data
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <!-- MOBILE iOS BOTTOM TAB BAR -->
+  <!-- MOBILE BOTTOM TAB BAR -->
   <nav class="fixed bottom-0 inset-x-0 z-30 ios-nav-blur sm:hidden px-2 py-1.5">
-    <div class="grid grid-cols-5 gap-1 max-w-md mx-auto">
+    <div class="grid grid-cols-6 gap-1 max-w-md mx-auto">
       <button data-tab="dashboard" class="nav-tab-btn flex flex-col items-center py-1 rounded-xl text-blue-400">
         <span class="text-lg">🏠</span>
         <span class="text-[10px] font-semibold">Home</span>
@@ -611,6 +681,10 @@
       <button data-tab="analytics" class="nav-tab-btn flex flex-col items-center py-1 rounded-xl text-zinc-400">
         <span class="text-lg">📊</span>
         <span class="text-[10px] font-semibold">Stats</span>
+      </button>
+      <button data-tab="cloud" class="nav-tab-btn flex flex-col items-center py-1 rounded-xl text-zinc-400">
+        <span class="text-lg">☁️</span>
+        <span class="text-[10px] font-semibold">Sync</span>
       </button>
     </div>
   </nav>
@@ -662,16 +736,14 @@
             <select id="txCategory" class="ios-input text-xs"></select>
           </div>
           <div id="wrapPaymentMode">
-            <label class="block text-xs font-semibold text-zinc-300 mb-1">📱 Payment Mode (UPI / CC / Cash)</label>
+            <label class="block text-xs font-semibold text-zinc-300 mb-1">📱 Mode of Transaction</label>
             <select id="txPaymentMode" class="ios-input text-xs">
-              <option value="UPI - GPay">🔵 UPI - GPay</option>
-              <option value="UPI - PhonePe">🟣 UPI - PhonePe</option>
-              <option value="UPI - Paytm">💠 UPI - Paytm</option>
-              <option value="UPI Credit Card">⚡ RuPay UPI Credit Card</option>
-              <option value="Credit Card">💳 Credit Card (Swipe/Online)</option>
+              <option value="UPI">📱 UPI</option>
+              <option value="UPI Credit Card">⚡ UPI Credit Card</option>
+              <option value="Credit Card">💳 Credit Card</option>
               <option value="Debit Card">🏧 Debit Card</option>
               <option value="Cash">💵 Cash</option>
-              <option value="NetBanking / IMPS">🏦 NetBanking / IMPS</option>
+              <option value="Bank Transfer">🏦 Bank Transfer</option>
             </select>
           </div>
         </div>
@@ -699,7 +771,7 @@
           </div>
           <div id="wrapPaybackFriendSelect" class="hidden space-y-2">
             <label class="block text-xs text-zinc-300">Select Friend who paid you back (reduces their pending debt):</label>
-            <input id="txPaybackFriendName" list="friendsDatalist" placeholder="Type or select friend name (e.g. Rahul)" class="ios-input text-xs" />
+            <input id="txPaybackFriendName" list="friendsDatalist" placeholder="Type friend name" class="ios-input text-xs" />
           </div>
         </div>
 
@@ -708,7 +780,7 @@
           <div class="text-xs font-bold text-rose-300">🙋‍♂️ Friend Paid the Bill (Logs your expense + adds to "I Owe")</div>
           <div>
             <label class="block text-xs text-zinc-300 mb-1">Who paid for your share?</label>
-            <input id="txFriendWhoPaid" list="friendsDatalist" placeholder="e.g. Karthik" class="ios-input text-xs" />
+            <input id="txFriendWhoPaid" list="friendsDatalist" placeholder="Friend name" class="ios-input text-xs" />
           </div>
           <p class="text-[11px] text-zinc-400">Your bank balance won't change now, your category spend increases, and this amount is added to what you owe them until you settle up or pay them back.</p>
         </div>
@@ -729,7 +801,7 @@
             <div class="flex flex-wrap items-center justify-between gap-2">
               <span class="text-xs text-zinc-300 font-semibold">Add Friends in this Split:</span>
               <div class="flex items-center gap-1.5">
-                <input id="splitNewFriendInput" list="friendsDatalist" type="text" placeholder="Friend name (e.g. Arun)" class="ios-input !py-1.5 !px-2.5 !w-36 text-xs" />
+                <input id="splitNewFriendInput" list="friendsDatalist" type="text" placeholder="Friend name" class="ios-input !py-1.5 !px-2.5 !w-36 text-xs" />
                 <button type="button" id="btnAddFriendToSplit" class="ios-btn px-3 py-1.5 rounded-xl bg-purple-600 text-white text-xs font-semibold">
                   ➕ Add
                 </button>
@@ -754,8 +826,8 @@
 
         <!-- Note / Description -->
         <div>
-          <label class="block text-xs font-semibold text-zinc-300 mb-1">📝 Note / Where / Purpose</label>
-          <input id="txNote" type="text" placeholder="e.g. Saturday Dinner at Toit with friends / Monthly Rent" class="ios-input text-xs" />
+          <label class="block text-xs font-semibold text-zinc-300 mb-1">📝 Note / Purpose</label>
+          <input id="txNote" type="text" placeholder="e.g. Dinner with friends / Monthly Rent" class="ios-input text-xs" />
         </div>
 
         <div class="flex items-center justify-end gap-2 pt-2">
@@ -796,9 +868,8 @@
           <div>
             <label class="block text-xs font-semibold text-zinc-300 mb-1">📱 Mode</label>
             <select id="payCCMode" class="ios-input text-xs">
-              <option value="UPI - GPay">🔵 UPI - GPay</option>
-              <option value="UPI - PhonePe">🟣 UPI - PhonePe</option>
-              <option value="NetBanking / IMPS">🏦 NetBanking / BillDesk</option>
+              <option value="UPI">📱 UPI</option>
+              <option value="Bank Transfer">🏦 Bank Transfer</option>
               <option value="Debit Card">🏧 Debit Card</option>
             </select>
           </div>
@@ -830,23 +901,23 @@
           </div>
           <div class="col-span-3">
             <label class="block text-xs font-semibold text-zinc-300 mb-1">Account Name</label>
-            <input id="bankName" type="text" required placeholder="e.g. Salary Account (HDFC)" class="ios-input text-xs" />
+            <input id="bankName" type="text" required placeholder="e.g. Salary Account / Personal / Cash" class="ios-input text-xs" />
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-zinc-300 mb-1">Purpose / Type</label>
-            <input id="bankType" type="text" placeholder="e.g. Salary / Personal / Cash" class="ios-input text-xs" />
+            <input id="bankType" type="text" placeholder="e.g. Salary / Credit Cards / Cash" class="ios-input text-xs" />
           </div>
           <div>
-            <label class="block text-xs font-semibold text-zinc-300 mb-1">Current Balance (₹)</label>
+            <label class="block text-xs font-semibold text-zinc-300 mb-1">Opening / Current Balance (₹)</label>
             <input id="bankBalance" type="number" step="0.01" required class="ios-input text-sm font-bold text-emerald-400" />
           </div>
         </div>
         <div>
           <label class="block text-xs font-semibold text-zinc-300 mb-1">Card Gradient Style</label>
           <select id="bankColor" class="ios-input text-xs">
-            <option value="from-blue-600/40 via-indigo-700/40 to-slate-900">🔵 Apple Ocean Blue</option>
+            <option value="from-blue-600/40 via-indigo-700/40 to-slate-900">🔵 Ocean Blue</option>
             <option value="from-emerald-600/40 via-teal-700/40 to-slate-900">🟢 Emerald Mint</option>
             <option value="from-purple-600/40 via-fuchsia-700/40 to-slate-900">🟣 Royal Purple</option>
             <option value="from-amber-500/40 via-orange-700/40 to-slate-900">🟠 Sunset Gold</option>
@@ -882,7 +953,7 @@
           </div>
           <div class="col-span-3">
             <label class="block text-xs font-semibold text-zinc-300 mb-1">Credit Card Name</label>
-            <input id="ccName" type="text" required placeholder="e.g. HDFC Millennia / ICICI RuPay" class="ios-input text-xs" />
+            <input id="ccName" type="text" required placeholder="e.g. Card 1 / RuPay CC" class="ios-input text-xs" />
           </div>
         </div>
 
@@ -893,7 +964,7 @@
 
         <div id="wrapStandaloneLimit" class="hidden">
           <label class="block text-xs font-semibold text-zinc-300 mb-1">🎯 Standalone Credit Limit (₹)</label>
-          <input id="ccOwnLimit" type="number" step="1" min="1000" value="50000" class="ios-input text-sm font-bold text-amber-300" />
+          <input id="ccOwnLimit" type="number" step="1" min="1" value="50000" class="ios-input text-sm font-bold text-amber-300" />
         </div>
 
         <div>
@@ -929,7 +1000,7 @@
         </div>
         <div>
           <label class="block text-xs font-semibold text-zinc-300 mb-1">Total Shared Usage Limit (₹)</label>
-          <input id="poolLimit" type="number" step="1" min="1" required placeholder="e.g. 150000" class="ios-input text-base font-bold text-purple-300" />
+          <input id="poolLimit" type="number" step="1" min="1" required placeholder="e.g. 100000" class="ios-input text-base font-bold text-purple-300" />
         </div>
         <div class="flex justify-end gap-2 pt-2">
           <button type="button" id="btnCancelPool" class="ios-btn px-4 py-2 rounded-xl bg-zinc-800 text-zinc-300 text-xs font-semibold">Cancel</button>
@@ -954,7 +1025,7 @@
       <form id="formSettleFriend" class="space-y-3.5">
         <div>
           <label class="block text-xs font-semibold text-zinc-300 mb-1">👤 Friend Name</label>
-          <input id="settleFriendName" list="friendsDatalist" type="text" required placeholder="e.g. Rahul" class="ios-input text-xs font-bold" />
+          <input id="settleFriendName" list="friendsDatalist" type="text" required placeholder="Friend name" class="ios-input text-xs font-bold" />
         </div>
 
         <div>
@@ -979,11 +1050,9 @@
             <div>
               <label class="block text-xs font-semibold text-zinc-300 mb-1">📱 Mode</label>
               <select id="settleMode" class="ios-input text-xs">
-                <option value="UPI - GPay">🔵 UPI - GPay</option>
-                <option value="UPI - PhonePe">🟣 UPI - PhonePe</option>
-                <option value="UPI - Paytm">💠 UPI - Paytm</option>
+                <option value="UPI">📱 UPI</option>
                 <option value="Cash">💵 Cash</option>
-                <option value="NetBanking / IMPS">🏦 Bank Transfer</option>
+                <option value="Bank Transfer">🏦 Bank Transfer</option>
               </select>
             </div>
           </div>
@@ -995,7 +1064,7 @@
 
         <div>
           <label class="block text-xs font-semibold text-zinc-300 mb-1">📝 Reason / Linked Expense Note</label>
-          <input id="settleNote" type="text" placeholder="e.g. Settled up weekend dinner & movie bills" class="ios-input text-xs" />
+          <input id="settleNote" type="text" placeholder="e.g. Settled up dinner & movie bills" class="ios-input text-xs" />
         </div>
 
         <div class="flex justify-end gap-2 pt-2">
@@ -1023,7 +1092,7 @@
           </div>
           <div class="col-span-3">
             <label class="block text-xs text-zinc-300 mb-1">Category Name</label>
-            <input id="catNameInput" type="text" required placeholder="e.g. Badminton Court" class="ios-input text-xs" />
+            <input id="catNameInput" type="text" required placeholder="e.g. Badminton" class="ios-input text-xs" />
           </div>
         </div>
         <div>
@@ -1048,25 +1117,24 @@
 
   <!-- MAIN APPLICATION SCRIPT -->
   <script>
-    const STORAGE_KEY = 'my_money_ios_app_v1';
+    const STORAGE_KEY = 'my_money_clean_v2';
 
-    // Default tailored categories for a 28-year-old Indian male
     const DEFAULT_CATEGORIES = [
       { id: 'cat_groceries', name: 'House Groceries & Kirana', emoji: '🛒', type: 'EXPENSE' },
       { id: 'cat_rent', name: 'House Rent & Maintenance', emoji: '🏠', type: 'EXPENSE' },
       { id: 'cat_electricity', name: 'Electricity, Wi-Fi & Gas', emoji: '⚡', type: 'EXPENSE' },
       { id: 'cat_going_out', name: 'Going Out & Weekend Pub/Cafe', emoji: '🍻', type: 'EXPENSE' },
-      { id: 'cat_dining', name: 'Dining & Food Delivery (Swiggy/Zomato)', emoji: '🍽️', type: 'EXPENSE' },
-      { id: 'cat_movies', name: 'Movie Theater & IMAX', emoji: '🎬', type: 'EXPENSE' },
-      { id: 'cat_ott', name: 'OTT & Subscriptions (Netflix/Spotify)', emoji: '📺', type: 'EXPENSE' },
+      { id: 'cat_dining', name: 'Dining & Food Delivery', emoji: '🍽️', type: 'EXPENSE' },
+      { id: 'cat_movies', name: 'Movie Theater', emoji: '🎬', type: 'EXPENSE' },
+      { id: 'cat_ott', name: 'OTT & Subscriptions', emoji: '📺', type: 'EXPENSE' },
       { id: 'cat_bike_service', name: 'Bike Servicing & Fuel', emoji: '🏍️', type: 'EXPENSE' },
       { id: 'cat_car_service', name: 'Car Servicing & Fuel', emoji: '🚗', type: 'EXPENSE' },
       { id: 'cat_bike_ins', name: 'Bike Insurance', emoji: '🛡️', type: 'EXPENSE' },
       { id: 'cat_car_ins', name: 'Car Insurance', emoji: '🚘', type: 'EXPENSE' },
       { id: 'cat_life_ins', name: 'Life & Health Insurance', emoji: '❤️', type: 'EXPENSE' },
       { id: 'cat_shopping', name: 'Shopping, Gadgets & Grooming', emoji: '🛍️', type: 'EXPENSE' },
-      { id: 'cat_fitness', name: 'Gym, Cult & Sports', emoji: '🏋️', type: 'EXPENSE' },
-      { id: 'cat_travel', name: 'Commute, Uber/Auto & Flights', emoji: '✈️', type: 'EXPENSE' },
+      { id: 'cat_fitness', name: 'Gym & Sports', emoji: '🏋️', type: 'EXPENSE' },
+      { id: 'cat_travel', name: 'Travel, Cab & Metro', emoji: '✈️', type: 'EXPENSE' },
       { id: 'cat_family', name: 'Family, Gifts & Festivals', emoji: '🎁', type: 'EXPENSE' },
       { id: 'cat_loan_given', name: 'Loan / Paid for Friend', emoji: '💸', type: 'EXPENSE' },
       { id: 'cat_salary', name: 'Monthly Salary & Bonus', emoji: '💰', type: 'INCOME' },
@@ -1074,118 +1142,14 @@
       { id: 'cat_freelance', name: 'Freelance, Dividends & Cashback', emoji: '📈', type: 'INCOME' }
     ];
 
-    function getInitialSampleState() {
-      const today = new Date().toISOString().slice(0, 10);
+    function getEmptyState() {
       return {
-        banks: [
-          { id: 'bank_1', name: 'Salary Account (HDFC)', emoji: '💼', type: 'Salary & Daily UPI', balance: 68500, color: 'from-blue-600/40 via-indigo-700/40 to-slate-900' },
-          { id: 'bank_2', name: 'Personal Savings (ICICI)', emoji: '🏦', type: 'Savings & Investments', balance: 42000, color: 'from-emerald-600/40 via-teal-700/40 to-slate-900' },
-          { id: 'bank_3', name: 'CC Bill Account (SBI)', emoji: '💳', type: 'Dedicated for Credit Cards', balance: 25000, color: 'from-purple-600/40 via-fuchsia-700/40 to-slate-900' },
-          { id: 'bank_cash', name: 'Cash in Wallet', emoji: '💵', type: 'Physical Cash', balance: 2500, color: 'from-amber-500/40 via-orange-700/40 to-slate-900' }
-        ],
-        creditPools: [
-          { id: 'pool_shared_1', name: 'Clubbed 3-Card Shared Limit', totalLimit: 100000 }
-        ],
-        creditCards: [
-          { id: 'cc_1', name: 'HDFC Regalia Gold', emoji: '💳', poolId: 'pool_shared_1', ownLimit: 0, used: 6400 },
-          { id: 'cc_2', name: 'ICICI Coral RuPay (UPI CC)', emoji: '⚡', poolId: 'pool_shared_1', ownLimit: 0, used: 3600 },
-          { id: 'cc_3', name: 'Axis MyZone', emoji: '💎', poolId: 'pool_shared_1', ownLimit: 0, used: 2000 }
-        ],
+        banks: [],
+        creditPools: [],
+        creditCards: [],
         categories: [...DEFAULT_CATEGORIES],
-        transactions: [
-          {
-            id: 'tx_sample_1',
-            date: today,
-            type: 'EXPENSE',
-            totalAmount: 1200,
-            myExpenseAmount: 300,
-            category: 'Going Out & Weekend Pub/Cafe',
-            categoryEmoji: '🍻',
-            paymentMode: 'UPI - GPay',
-            sourceKind: 'BANK',
-            accountId: 'bank_1',
-            note: 'Weekend Dinner with Arun, Karthik & Vikram (Split 4 ways)',
-            isSplit: true,
-            splits: [
-              { friend: 'Arun', amount: 300 },
-              { friend: 'Karthik', amount: 300 },
-              { friend: 'Vikram', amount: 300 }
-            ]
-          },
-          {
-            id: 'tx_sample_2',
-            date: today,
-            type: 'EXPENSE',
-            totalAmount: 1850,
-            myExpenseAmount: 1850,
-            category: 'Bike Servicing & Fuel',
-            categoryEmoji: '🏍️',
-            paymentMode: 'UPI Credit Card',
-            sourceKind: 'CC',
-            accountId: 'cc_2',
-            note: 'General Bike Service & Engine Oil',
-            isSplit: false,
-            splits: []
-          },
-          {
-            id: 'tx_sample_3',
-            date: today,
-            type: 'FRIEND_PAID',
-            totalAmount: 250,
-            myExpenseAmount: 250,
-            category: 'Movie Theater & IMAX',
-            categoryEmoji: '🎬',
-            paymentMode: 'Friend Paid',
-            sourceKind: 'NONE',
-            accountId: '',
-            note: 'IMAX Ticket paid by Arun (I owe Arun)',
-            friendWhoPaid: 'Arun',
-            isSplit: false,
-            splits: []
-          }
-        ],
-        debts: [
-          {
-            id: 'debt_1',
-            date: today,
-            friend: 'Arun',
-            direction: 'OWED_TO_ME', // Arun owes me
-            amount: 300,
-            note: 'Weekend Dinner split (1/4 share)',
-            settled: false,
-            txId: 'tx_sample_1'
-          },
-          {
-            id: 'debt_2',
-            date: today,
-            friend: 'Karthik',
-            direction: 'OWED_TO_ME',
-            amount: 300,
-            note: 'Weekend Dinner split (1/4 share)',
-            settled: false,
-            txId: 'tx_sample_1'
-          },
-          {
-            id: 'debt_3',
-            date: today,
-            friend: 'Vikram',
-            direction: 'OWED_TO_ME',
-            amount: 300,
-            note: 'Weekend Dinner split (1/4 share)',
-            settled: false,
-            txId: 'tx_sample_1'
-          },
-          {
-            id: 'debt_4',
-            date: today,
-            friend: 'Arun',
-            direction: 'I_OWE', // I owe Arun
-            amount: 250,
-            note: 'IMAX Ticket paid by Arun',
-            settled: false,
-            txId: 'tx_sample_3'
-          }
-        ],
+        transactions: [],
+        debts: [],
         githubSync: {
           token: '',
           gistId: '',
@@ -1203,6 +1167,7 @@
 
     function loadState() {
       try {
+        localStorage.removeItem('my_money_ios_app_v1');
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
@@ -1215,22 +1180,18 @@
       } catch (e) {
         console.warn('localStorage load error:', e);
       }
-      return getInitialSampleState();
+      return getEmptyState();
     }
 
     function saveState(skipCloud = false) {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        updateSyncBadge('💾 Saved in Browser', 'emerald');
       } catch (e) {
         console.warn('localStorage save error:', e);
       }
-
-    }
-
-    function updateSyncBadge(text, color = 'emerald') {
-      const el = document.getElementById('syncStatusText');
-      if (el) el.textContent = text;
+      if (!skipCloud && state.githubSync && state.githubSync.autoSync && state.githubSync.token && state.githubSync.gistId) {
+        pushToGitHubGist(true);
+      }
     }
 
     function formatINR(num) {
@@ -1309,6 +1270,7 @@
       if (currentTab === 'analytics') {
         renderAnalyticsView();
       }
+      renderCloudSyncView();
     }
 
     function getFilteredTransactions() {
@@ -1342,7 +1304,7 @@
     function populateFriendsDatalist() {
       const dl = document.getElementById('friendsDatalist');
       if (!dl) return;
-      const names = new Set(['Arun', 'Karthik', 'Vikram', 'Rahul']);
+      const names = new Set();
       state.debts.forEach(d => { if (d.friend) names.add(d.friend.trim()); });
       dl.innerHTML = Array.from(names).map(n => `<option value="${n}"></option>`).join('');
     }
@@ -1353,7 +1315,9 @@
     function renderTopMetrics() {
       const totalLiquid = state.banks.reduce((s, b) => s + (Number(b.balance) || 0), 0);
       document.getElementById('statLiquidBalance').textContent = formatINR(totalLiquid);
-      document.getElementById('statLiquidSub').textContent = `Across ${state.banks.length} accounts & cash`;
+      document.getElementById('statLiquidSub').textContent = state.banks.length > 0
+        ? `Across ${state.banks.length} account(s)`
+        : `Add your bank accounts below`;
 
       const filteredTx = getFilteredTransactions();
       const myExpenses = filteredTx
@@ -1432,7 +1396,7 @@
       const spendEl = document.getElementById('dashboardSpendBreakdown');
       if (spendEl) {
         if (sortedCats.length === 0) {
-          spendEl.innerHTML = `<div class="col-span-4 text-xs text-zinc-500 py-3 text-center">No expenses logged in this period yet.</div>`;
+          spendEl.innerHTML = `<div class="col-span-4 text-xs text-zinc-500 py-3 text-center">No expenses logged yet. When you add transactions, your category breakdown appears right here.</div>`;
         } else {
           spendEl.innerHTML = sortedCats.slice(0, 8).map(([name, val]) => {
             const pct = totalMySpend > 0 ? Math.round((val / totalMySpend) * 100) : 0;
@@ -1454,17 +1418,21 @@
 
       // 1. Bank cards
       const banksEl = document.getElementById('dashboardBanksList');
-      banksEl.innerHTML = state.banks.map(b => `
-        <div data-edit-bank="${b.id}" class="wallet-card bg-gradient-to-br ${b.color || 'from-blue-600/40 to-slate-900'} p-4 cursor-pointer">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xl">${b.emoji || '🏦'}</span>
-            <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-white/10 text-zinc-200">${b.type || 'Account'}</span>
+      if (state.banks.length === 0) {
+        banksEl.innerHTML = `<div class="col-span-2 text-xs text-zinc-500 py-6 text-center border border-dashed border-white/10 rounded-2xl">No bank or cash accounts yet. Tap <strong>➕ Add Account</strong> to add your accounts.</div>`;
+      } else {
+        banksEl.innerHTML = state.banks.map(b => `
+          <div data-edit-bank="${b.id}" class="wallet-card bg-gradient-to-br ${b.color || 'from-blue-600/40 to-slate-900'} p-4 cursor-pointer">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xl">${b.emoji || '🏦'}</span>
+              <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-white/10 text-zinc-200">${b.type || 'Account'}</span>
+            </div>
+            <div class="text-xs font-medium text-zinc-300 truncate">${b.name}</div>
+            <div class="text-lg font-extrabold text-white mt-0.5">${formatINR(b.balance)}</div>
+            <div class="text-[10px] text-zinc-400 mt-1">Tap to edit ✏️</div>
           </div>
-          <div class="text-xs font-medium text-zinc-300 truncate">${b.name}</div>
-          <div class="text-lg font-extrabold text-white mt-0.5">${formatINR(b.balance)}</div>
-          <div class="text-[10px] text-zinc-400 mt-1">Tap to edit balance ✏️</div>
-        </div>
-      `).join('');
+        `).join('');
+      }
 
       // 2. Credit Card Pools & Cards
       const ccEl = document.getElementById('dashboardPoolsAndCards');
@@ -1480,7 +1448,7 @@
                   <span>🔗</span> <span>${pool.name}</span>
                   <button data-edit-pool="${pool.id}" class="text-[11px] text-zinc-400 hover:text-white ml-1">✏️</button>
                 </div>
-                <div class="text-[11px] text-zinc-400">${st.cards.length} Cards linked • Shared Available: <strong class="text-amber-300">${formatINR(st.available)}</strong> / ${formatINR(st.totalLimit)}</div>
+                <div class="text-[11px] text-zinc-400">${st.cards.length} Card(s) • Shared Available: <strong class="text-amber-300">${formatINR(st.available)}</strong> / ${formatINR(st.totalLimit)}</div>
               </div>
               <span class="text-xs font-bold px-2 py-0.5 rounded-lg bg-amber-500/15 text-amber-300">${pct}% Used</span>
             </div>
@@ -1523,13 +1491,16 @@
           }).join('')}
         </div>`;
       }
+      if (!ccHtml) {
+        ccHtml = `<div class="text-xs text-zinc-500 py-6 text-center border border-dashed border-white/10 rounded-2xl">No credit cards or limit pools yet. Tap <strong>🔗 + Pool</strong> to create your shared limit pool, then tap <strong>➕ Card</strong>.</div>`;
+      }
       ccEl.innerHTML = ccHtml;
 
       // 3. Recent Transactions
       const recentEl = document.getElementById('dashboardRecentTx');
       const recentList = getFilteredTransactions().slice(0, 6);
       if (recentList.length === 0) {
-        recentEl.innerHTML = `<div class="text-xs text-zinc-500 py-6 text-center">No transactions recorded in this period yet. Tap ➕ Add Transaction!</div>`;
+        recentEl.innerHTML = `<div class="text-xs text-zinc-500 py-6 text-center">No transactions yet. Tap ➕ Add Transaction to start logging.</div>`;
       } else {
         recentEl.innerHTML = recentList.map(t => renderTransactionRowHTML(t, true)).join('');
       }
@@ -1539,7 +1510,7 @@
       const friendsArr = Object.values(friendSummary).filter(f => f.owedToMe > 0.01 || f.iOwe > 0.01);
       const debtDashEl = document.getElementById('dashboardFriendDebts');
       if (friendsArr.length === 0) {
-        debtDashEl.innerHTML = `<div class="text-xs text-zinc-500 py-6 text-center">🎉 All settled up! No pending friend splits or loans.</div>`;
+        debtDashEl.innerHTML = `<div class="text-xs text-zinc-500 py-6 text-center">No pending friend splits or loans.</div>`;
       } else {
         debtDashEl.innerHTML = friendsArr.map(f => `
           <div class="p-3 rounded-2xl bg-zinc-900/85 border border-white/10 flex items-center justify-between gap-2">
@@ -1633,7 +1604,6 @@
     // VIEW 2: FULL TRANSACTIONS LIST
     // ==========================================
     function renderTransactionsView() {
-      // Populate category & account filters
       const catSel = document.getElementById('txCategoryFilter');
       const prevCat = catSel.value || 'ALL';
       catSel.innerHTML = `<option value="ALL">All Categories</option>` +
@@ -1679,7 +1649,7 @@
 
       const container = document.getElementById('fullTransactionsList');
       if (list.length === 0) {
-        container.innerHTML = `<div class="text-xs text-zinc-500 py-10 text-center">No matching transactions found.</div>`;
+        container.innerHTML = `<div class="text-xs text-zinc-500 py-10 text-center">No transactions found.</div>`;
       } else {
         container.innerHTML = list.map(t => renderTransactionRowHTML(t, false)).join('');
       }
@@ -1689,102 +1659,110 @@
     // VIEW 3: ACCOUNTS, POOLS & CARDS
     // ==========================================
     function renderAccountsView() {
-      // Banks
       const bankGrid = document.getElementById('accountsBankGrid');
-      bankGrid.innerHTML = state.banks.map(b => `
-        <div class="wallet-card bg-gradient-to-br ${b.color || 'from-blue-600/40 to-slate-900'} p-5 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between">
-              <span class="text-2xl">${b.emoji || '🏦'}</span>
-              <span class="text-xs px-2.5 py-0.5 rounded-full bg-white/15 text-white font-semibold">${b.type || 'Account'}</span>
-            </div>
-            <div class="text-base font-bold text-white mt-3">${b.name}</div>
-            <div class="text-2xl font-extrabold text-white mt-1">${formatINR(b.balance)}</div>
-          </div>
-          <div class="flex items-center justify-between mt-4 pt-3 border-t border-white/10">
-            <span class="text-[11px] text-zinc-300">Fully Editable</span>
-            <button data-edit-bank="${b.id}" class="ios-btn px-3 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-white text-xs font-semibold">
-              ✏️ Edit Name / Balance
-            </button>
-          </div>
-        </div>
-      `).join('');
-
-      // Pools
-      const poolsGrid = document.getElementById('accountsPoolsGrid');
-      poolsGrid.innerHTML = state.creditPools.map(p => {
-        const st = getPoolStats(p.id);
-        const pct = st.totalLimit > 0 ? Math.min(100, Math.round((st.totalUsed / st.totalLimit) * 100)) : 0;
-        return `
-          <div class="p-5 rounded-3xl bg-zinc-900/90 border border-purple-500/30 space-y-3">
-            <div class="flex items-center justify-between">
-              <div>
-                <h4 class="text-sm font-bold text-white flex items-center gap-1.5"><span>🔗</span> <span>${p.name}</span></h4>
-                <p class="text-xs text-zinc-400">${st.cards.length} Cards sharing this limit</p>
-              </div>
-              <button data-edit-pool="${p.id}" class="ios-btn px-3 py-1.5 rounded-xl bg-purple-500/20 text-purple-300 text-xs font-semibold border border-purple-500/30">
-                ✏️ Edit Limit
-              </button>
-            </div>
-            <div class="grid grid-cols-3 gap-2 pt-1 text-center">
-              <div class="p-2.5 rounded-2xl bg-black/40">
-                <div class="text-[10px] text-zinc-400">Total Limit</div>
-                <div class="text-xs sm:text-sm font-bold text-white">${formatINR(st.totalLimit)}</div>
-              </div>
-              <div class="p-2.5 rounded-2xl bg-black/40">
-                <div class="text-[10px] text-zinc-400">Combined Used</div>
-                <div class="text-xs sm:text-sm font-bold text-rose-400">${formatINR(st.totalUsed)}</div>
-              </div>
-              <div class="p-2.5 rounded-2xl bg-black/40">
-                <div class="text-[10px] text-zinc-400">Available Now</div>
-                <div class="text-xs sm:text-sm font-bold text-emerald-400">${formatINR(st.available)}</div>
-              </div>
-            </div>
-            <div class="w-full h-2 rounded-full bg-zinc-800 overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-purple-500 to-rose-500" style="width:${pct}%"></div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      // Individual Cards
-      const cardsGrid = document.getElementById('accountsCardsGrid');
-      cardsGrid.innerHTML = state.creditCards.map(c => {
-        const info = getCardEffectiveLimitInfo(c);
-        return `
-          <div class="wallet-card bg-gradient-to-br from-zinc-800 via-zinc-900 to-black p-5 flex flex-col justify-between">
+      if (state.banks.length === 0) {
+        bankGrid.innerHTML = `<div class="col-span-3 text-xs text-zinc-500 py-8 text-center border border-dashed border-white/10 rounded-2xl">No bank accounts added yet. Click <strong>➕ Add Bank / Cash Account</strong> to add your accounts.</div>`;
+      } else {
+        bankGrid.innerHTML = state.banks.map(b => `
+          <div class="wallet-card bg-gradient-to-br ${b.color || 'from-blue-600/40 to-slate-900'} p-5 flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between">
-                <span class="text-2xl">${c.emoji || '💳'}</span>
-                <span class="text-[11px] px-2.5 py-0.5 rounded-full ${info.isShared ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'} font-semibold">
-                  ${info.isShared ? '🔗 ' + info.poolName : '🎯 Standalone Limit'}
-                </span>
+                <span class="text-2xl">${b.emoji || '🏦'}</span>
+                <span class="text-xs px-2.5 py-0.5 rounded-full bg-white/15 text-white font-semibold">${b.type || 'Account'}</span>
               </div>
-              <div class="text-base font-bold text-white mt-3">${c.name}</div>
-              <div class="mt-3 grid grid-cols-2 gap-2 p-2.5 rounded-2xl bg-white/5">
-                <div>
-                  <div class="text-[10px] text-zinc-400">This Card's Bill</div>
-                  <div class="text-sm font-extrabold text-rose-400">${formatINR(c.used)}</div>
-                </div>
-                <div>
-                  <div class="text-[10px] text-zinc-400">Available Limit</div>
-                  <div class="text-sm font-extrabold text-amber-300">${formatINR(info.available)}</div>
-                </div>
-              </div>
+              <div class="text-base font-bold text-white mt-3">${b.name}</div>
+              <div class="text-2xl font-extrabold text-white mt-1">${formatINR(b.balance)}</div>
             </div>
-            <div class="flex items-center justify-between gap-2 mt-4 pt-3 border-t border-white/10">
-              <button data-edit-cc="${c.id}" class="ios-btn px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-zinc-200 text-xs font-semibold">
-                ✏️ Edit Card
-              </button>
-              <button data-pay-cc="${c.id}" class="ios-btn px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-semibold">
-                💸 Pay Bill Separately
+            <div class="flex items-center justify-between mt-4 pt-3 border-t border-white/10">
+              <span class="text-[11px] text-zinc-300">Editable</span>
+              <button data-edit-bank="${b.id}" class="ios-btn px-3 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-white text-xs font-semibold">
+                ✏️ Edit Name / Balance
               </button>
             </div>
           </div>
-        `;
-      }).join('');
+        `).join('');
+      }
 
-      // Categories chips
+      const poolsGrid = document.getElementById('accountsPoolsGrid');
+      if (state.creditPools.length === 0) {
+        poolsGrid.innerHTML = `<div class="col-span-2 text-xs text-zinc-500 py-6 text-center border border-dashed border-white/10 rounded-2xl">No shared limit pools created yet. Click <strong>➕ New Shared Limit Pool</strong> to create a shared credit limit.</div>`;
+      } else {
+        poolsGrid.innerHTML = state.creditPools.map(p => {
+          const st = getPoolStats(p.id);
+          const pct = st.totalLimit > 0 ? Math.min(100, Math.round((st.totalUsed / st.totalLimit) * 100)) : 0;
+          return `
+            <div class="p-5 rounded-3xl bg-zinc-900/90 border border-purple-500/30 space-y-3">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-sm font-bold text-white flex items-center gap-1.5"><span>🔗</span> <span>${p.name}</span></h4>
+                  <p class="text-xs text-zinc-400">${st.cards.length} Card(s) sharing this limit</p>
+                </div>
+                <button data-edit-pool="${p.id}" class="ios-btn px-3 py-1.5 rounded-xl bg-purple-500/20 text-purple-300 text-xs font-semibold border border-purple-500/30">
+                  ✏️ Edit Limit
+                </button>
+              </div>
+              <div class="grid grid-cols-3 gap-2 pt-1 text-center">
+                <div class="p-2.5 rounded-2xl bg-black/40">
+                  <div class="text-[10px] text-zinc-400">Total Limit</div>
+                  <div class="text-xs sm:text-sm font-bold text-white">${formatINR(st.totalLimit)}</div>
+                </div>
+                <div class="p-2.5 rounded-2xl bg-black/40">
+                  <div class="text-[10px] text-zinc-400">Combined Used</div>
+                  <div class="text-xs sm:text-sm font-bold text-rose-400">${formatINR(st.totalUsed)}</div>
+                </div>
+                <div class="p-2.5 rounded-2xl bg-black/40">
+                  <div class="text-[10px] text-zinc-400">Available Now</div>
+                  <div class="text-xs sm:text-sm font-bold text-emerald-400">${formatINR(st.available)}</div>
+                </div>
+              </div>
+              <div class="w-full h-2 rounded-full bg-zinc-800 overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-purple-500 to-rose-500" style="width:${pct}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const cardsGrid = document.getElementById('accountsCardsGrid');
+      if (state.creditCards.length === 0) {
+        cardsGrid.innerHTML = `<div class="col-span-3 text-xs text-zinc-500 py-8 text-center border border-dashed border-white/10 rounded-2xl">No credit cards added yet. Click <strong>➕ Add Credit Card</strong>.</div>`;
+      } else {
+        cardsGrid.innerHTML = state.creditCards.map(c => {
+          const info = getCardEffectiveLimitInfo(c);
+          return `
+            <div class="wallet-card bg-gradient-to-br from-zinc-800 via-zinc-900 to-black p-5 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between">
+                  <span class="text-2xl">${c.emoji || '💳'}</span>
+                  <span class="text-[11px] px-2.5 py-0.5 rounded-full ${info.isShared ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'} font-semibold">
+                    ${info.isShared ? '🔗 ' + info.poolName : '🎯 Standalone Limit'}
+                  </span>
+                </div>
+                <div class="text-base font-bold text-white mt-3">${c.name}</div>
+                <div class="mt-3 grid grid-cols-2 gap-2 p-2.5 rounded-2xl bg-white/5">
+                  <div>
+                    <div class="text-[10px] text-zinc-400">This Card's Bill</div>
+                    <div class="text-sm font-extrabold text-rose-400">${formatINR(c.used)}</div>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-zinc-400">Available Limit</div>
+                    <div class="text-sm font-extrabold text-amber-300">${formatINR(info.available)}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center justify-between gap-2 mt-4 pt-3 border-t border-white/10">
+                <button data-edit-cc="${c.id}" class="ios-btn px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-zinc-200 text-xs font-semibold">
+                  ✏️ Edit Card
+                </button>
+                <button data-pay-cc="${c.id}" class="ios-btn px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-semibold">
+                  💸 Pay Bill Separately
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
       const catList = document.getElementById('categoriesChipList');
       catList.innerHTML = state.categories.map(c => `
         <span class="px-3 py-1.5 rounded-xl bg-zinc-900 border border-white/10 text-xs font-medium text-zinc-200 flex items-center gap-1.5">
@@ -1845,7 +1823,6 @@
                 </button>
               </div>
 
-              <!-- Separate Owed To Me vs I Owe Them boxes (Untallied until Settle Up is clicked!) -->
               <div class="grid grid-cols-2 gap-3">
                 <div class="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/25">
                   <div class="text-[11px] text-emerald-300 font-semibold">📥 ${f.friend} Owes Me</div>
@@ -1877,7 +1854,6 @@
         }).join('');
       }
 
-      // Detailed ledger
       const filterStatus = document.getElementById('debtStatusFilter')?.value || 'PENDING';
       let ledger = [...state.debts].reverse();
       if (filterStatus === 'PENDING') ledger = ledger.filter(d => !d.settled);
@@ -2003,6 +1979,133 @@
     }
 
     // ==========================================
+    // VIEW 6: GITHUB GIST SYNC
+    // ==========================================
+    function renderCloudSyncView() {
+      const gh = state.githubSync || {};
+      const tokenEl = document.getElementById('ghTokenInput');
+      const gistEl = document.getElementById('ghGistIdInput');
+      const autoEl = document.getElementById('ghAutoSyncToggle');
+      const logEl = document.getElementById('ghSyncLogText');
+      if (tokenEl && document.activeElement !== tokenEl) tokenEl.value = gh.token || '';
+      if (gistEl && document.activeElement !== gistEl) gistEl.value = gh.gistId || '';
+      if (autoEl) autoEl.checked = Boolean(gh.autoSync);
+      if (logEl) {
+        logEl.textContent = gh.lastSynced
+          ? `Last Synced: ${gh.lastSynced}`
+          : `Sync your data with your private GitHub Gist`;
+      }
+    }
+
+    async function createNewGitHubGist() {
+      const token = document.getElementById('ghTokenInput').value.trim();
+      if (!token) {
+        showToast('Please paste your GitHub Personal Access Token first', '⚠️');
+        return;
+      }
+      state.githubSync.token = token;
+      try {
+        const copyToSave = JSON.parse(JSON.stringify(state));
+        copyToSave.githubSync.token = '';
+        const res = await fetch('https://api.github.com/gists', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            description: 'My Money App Cloud Data',
+            public: false,
+            files: {
+              'my_money_db.json': {
+                content: JSON.stringify(copyToSave, null, 2)
+              }
+            }
+          })
+        });
+        if (!res.ok) throw new Error(`GitHub API ${res.status}`);
+        const data = await res.json();
+        state.githubSync.gistId = data.id;
+        state.githubSync.lastSynced = new Date().toLocaleString();
+        saveState(true);
+        renderCloudSyncView();
+        showToast(`Created Private Cloud Gist (${data.id.slice(0, 8)}...)!`, '🎉');
+      } catch (err) {
+        showToast('Failed to create Gist. Check your token has `gist` permission.', '❌');
+      }
+    }
+
+    async function pushToGitHubGist(silent = false) {
+      const token = state.githubSync.token || document.getElementById('ghTokenInput')?.value.trim();
+      const gistId = state.githubSync.gistId || document.getElementById('ghGistIdInput')?.value.trim();
+      if (!token || !gistId) {
+        if (!silent) showToast('Enter both GitHub Token and Gist ID first', '⚠️');
+        return;
+      }
+      try {
+        const copyToSave = JSON.parse(JSON.stringify(state));
+        copyToSave.githubSync.token = '';
+        const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            files: {
+              'my_money_db.json': {
+                content: JSON.stringify(copyToSave, null, 2)
+              }
+            }
+          })
+        });
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        state.githubSync.lastSynced = new Date().toLocaleString();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        renderCloudSyncView();
+        if (!silent) showToast('Pushed data to GitHub Gist!', '☁️');
+      } catch (err) {
+        if (!silent) showToast('Could not push to GitHub Gist. Check token & Gist ID.', '❌');
+      }
+    }
+
+    async function pullFromGitHubGist() {
+      const token = document.getElementById('ghTokenInput').value.trim() || state.githubSync.token;
+      const gistId = document.getElementById('ghGistIdInput').value.trim() || state.githubSync.gistId;
+      if (!token || !gistId) {
+        showToast('Enter both GitHub Token and Gist ID to pull data', '⚠️');
+        return;
+      }
+      try {
+        const res = await fetch(`https://api.github.com/gists/${gistId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json'
+          }
+        });
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        const data = await res.json();
+        const fileObj = data.files && data.files['my_money_db.json'];
+        if (!fileObj || !fileObj.content) throw new Error('File my_money_db.json not found in Gist');
+        const loaded = JSON.parse(fileObj.content);
+        loaded.githubSync = {
+          token,
+          gistId,
+          autoSync: document.getElementById('ghAutoSyncToggle').checked,
+          lastSynced: new Date().toLocaleString()
+        };
+        state = loaded;
+        saveState(true);
+        renderAll();
+        showToast('Pulled latest data from GitHub Gist!', '🎉');
+      } catch (err) {
+        showToast('Could not pull from Gist. Verify Gist ID & Token.', '❌');
+      }
+    }
+
+    // ==========================================
     // TRANSACTION MODAL & SPLIT LOGIC
     // ==========================================
     function openTransactionModal(mode = 'EXPENSE', openWithSplit = false) {
@@ -2021,13 +2124,6 @@
       if (openWithSplit && mode === 'EXPENSE') {
         document.getElementById('txSplitToggle').checked = true;
         document.getElementById('splitBuilderBody').classList.remove('hidden');
-        if (currentSplitParticipants.length === 0) {
-          currentSplitParticipants = [
-            { friend: 'Arun', amount: 0 },
-            { friend: 'Karthik', amount: 0 },
-            { friend: 'Vikram', amount: 0 }
-          ];
-        }
         renderSplitParticipantsUI();
       } else {
         document.getElementById('txSplitToggle').checked = false;
@@ -2047,7 +2143,6 @@
         }
       });
 
-      // Populate Categories for mode
       const catSel = document.getElementById('txCategory');
       const filterType = mode === 'INCOME' ? 'INCOME' : 'EXPENSE';
       const cats = state.categories.filter(c => c.type === filterType);
@@ -2092,21 +2187,30 @@
       const lbl = document.getElementById('lblSpecificAccount');
       if (kind === 'CC') {
         lbl.textContent = '💳 Select Credit Card (Reduces CC Limit)';
-        sel.innerHTML = state.creditCards.map(c => {
-          const info = getCardEffectiveLimitInfo(c);
-          return `<option value="${c.id}">${c.emoji || '💳'} ${c.name} (Avail: ${formatINR(info.available)})</option>`;
-        }).join('');
+        if (state.creditCards.length === 0) {
+          sel.innerHTML = `<option value="">-- Add a Credit Card first --</option>`;
+        } else {
+          sel.innerHTML = state.creditCards.map(c => {
+            const info = getCardEffectiveLimitInfo(c);
+            return `<option value="${c.id}">${c.emoji || '💳'} ${c.name} (Avail: ${formatINR(info.available)})</option>`;
+          }).join('');
+        }
       } else {
         lbl.textContent = '🏦 Select Bank Account / Cash Wallet';
-        sel.innerHTML = state.banks.map(b => `<option value="${b.id}">${b.emoji || '🏦'} ${b.name} (${formatINR(b.balance)})</option>`).join('');
+        if (state.banks.length === 0) {
+          sel.innerHTML = `<option value="">-- Add a Bank Account first --</option>`;
+        } else {
+          sel.innerHTML = state.banks.map(b => `<option value="${b.id}">${b.emoji || '🏦'} ${b.name} (${formatINR(b.balance)})</option>`).join('');
+        }
       }
     }
 
     function recalculateEqualSplit() {
       const total = Number(document.getElementById('txAmount').value) || 0;
-      const count = currentSplitParticipants.length + 1; // Friends + Me
+      const count = currentSplitParticipants.length + 1;
       if (count <= 1 || total <= 0) {
         document.getElementById('splitMyShareInput').value = total || 0;
+        renderSplitParticipantsUI();
         return;
       }
       const each = Math.round((total / count) * 100) / 100;
@@ -2118,8 +2222,7 @@
     }
 
     function renderSplitParticipantsUI() {
-      // Quick chips of known friends
-      const known = new Set(['Arun', 'Karthik', 'Vikram', 'Rahul']);
+      const known = new Set();
       state.debts.forEach(d => { if (d.friend) known.add(d.friend.trim()); });
       const chipsEl = document.getElementById('splitQuickFriendsChips');
       chipsEl.innerHTML = Array.from(known).map(name => `
@@ -2130,7 +2233,7 @@
 
       const rowsEl = document.getElementById('splitParticipantsRows');
       if (currentSplitParticipants.length === 0) {
-        rowsEl.innerHTML = `<div class="text-[11px] text-zinc-400">Add friends above or tap a quick friend chip to split this bill.</div>`;
+        rowsEl.innerHTML = `<div class="text-[11px] text-zinc-400">Type a friend's name above and tap ➕ Add to split this bill.</div>`;
         return;
       }
       rowsEl.innerHTML = currentSplitParticipants.map((p, idx) => `
@@ -2162,6 +2265,11 @@
 
       if (totalAmount <= 0) {
         showToast('Please enter a valid amount greater than ₹0', '⚠️');
+        return;
+      }
+
+      if (mode !== 'FRIEND_PAID' && !accountId) {
+        showToast('Please add a Bank Account or Credit Card first', '🏦');
         return;
       }
 
@@ -2266,7 +2374,6 @@
         myExpenseAmount = !isNaN(myInputShare) ? myInputShare : Math.max(0, totalAmount - friendsTotal);
       }
 
-      // Deduct full totalAmount from chosen Bank Account OR increase Credit Card used
       if (sourceKind === 'CC') {
         const card = state.creditCards.find(c => c.id === accountId);
         if (card) {
@@ -2295,7 +2402,6 @@
         splits: validSplits
       });
 
-      // Add each friend's split share into Debts
       validSplits.forEach((sp, i) => {
         state.debts.push({
           id: `debt_${Date.now()}_${i}`,
@@ -2320,9 +2426,6 @@
       );
     }
 
-    // ==========================================
-    // DELETE & REVERSE TRANSACTION
-    // ==========================================
     function deleteTransaction(txId) {
       const idx = state.transactions.findIndex(t => t.id === txId);
       if (idx === -1) return;
@@ -2346,7 +2449,6 @@
         if (card) card.used = (Number(card.used) || 0) + Number(t.totalAmount);
       }
 
-      // Remove linked debts
       state.debts = state.debts.filter(d => d.txId !== txId);
       state.transactions.splice(idx, 1);
       saveState();
@@ -2354,28 +2456,24 @@
       showToast('Transaction deleted & balances restored', '🗑️');
     }
 
-    // ==========================================
-    // PAY CREDIT CARD BILL SEPARATELY
-    // ==========================================
     function openPayCCModal(preselectCardId = '') {
       const modal = document.getElementById('modalPayCC');
       modal.classList.remove('hidden');
       const cardSel = document.getElementById('payCCCardSelect');
-      cardSel.innerHTML = state.creditCards.map(c => `<option value="${c.id}">${c.emoji || '💳'} ${c.name} (Unpaid Bill: ${formatINR(c.used)})</option>`).join('');
+      cardSel.innerHTML = state.creditCards.length
+        ? state.creditCards.map(c => `<option value="${c.id}">${c.emoji || '💳'} ${c.name} (Unpaid Bill: ${formatINR(c.used)})</option>`).join('')
+        : `<option value="">-- No Credit Cards Added --</option>`;
       if (preselectCardId) cardSel.value = preselectCardId;
 
       const bankSel = document.getElementById('payCCBankSelect');
-      bankSel.innerHTML = state.banks.map(b => `<option value="${b.id}">${b.emoji || '🏦'} ${b.name} (${formatINR(b.balance)})</option>`).join('');
-      const ccBillAcc = state.banks.find(b => b.name.toLowerCase().includes('cc') || b.type.toLowerCase().includes('credit'));
-      if (ccBillAcc) bankSel.value = ccBillAcc.id;
+      bankSel.innerHTML = state.banks.length
+        ? state.banks.map(b => `<option value="${b.id}">${b.emoji || '🏦'} ${b.name} (${formatINR(b.balance)})</option>`).join('')
+        : `<option value="">-- No Bank Accounts Added --</option>`;
 
       const selectedCard = state.creditCards.find(c => c.id === cardSel.value);
       document.getElementById('payCCAmount').value = selectedCard ? selectedCard.used : 0;
     }
 
-    // ==========================================
-    // SETTLE UP / TALLY MUTUAL DEBTS MODAL
-    // ==========================================
     function openSettleFriendModal(friendName = '', defaultAction = 'TALLY_MUTUAL') {
       const modal = document.getElementById('modalSettleFriend');
       modal.classList.remove('hidden');
@@ -2383,7 +2481,9 @@
       document.getElementById('settleActionType').value = defaultAction;
 
       const bankSel = document.getElementById('settleBankSelect');
-      bankSel.innerHTML = state.banks.map(b => `<option value="${b.id}">${b.emoji || '🏦'} ${b.name} (${formatINR(b.balance)})</option>`).join('');
+      bankSel.innerHTML = state.banks.length
+        ? state.banks.map(b => `<option value="${b.id}">${b.emoji || '🏦'} ${b.name} (${formatINR(b.balance)})</option>`).join('')
+        : `<option value="">-- Add a Bank Account First --</option>`;
 
       updateSettleModalPreview();
     }
@@ -2452,7 +2552,6 @@
           return;
         }
 
-        // Reduce OWED_TO_ME by offset
         let remOwed = offset;
         state.debts.forEach(d => {
           if (!d.settled && d.friend.toLowerCase() === friend.toLowerCase() && d.direction === 'OWED_TO_ME' && remOwed > 0) {
@@ -2461,7 +2560,6 @@
           }
         });
 
-        // Reduce I_OWE by offset
         let remIOwe = offset;
         state.debts.forEach(d => {
           if (!d.settled && d.friend.toLowerCase() === friend.toLowerCase() && d.direction === 'I_OWE' && remIOwe > 0) {
@@ -2509,7 +2607,7 @@
           isSplit: false,
           splits: []
         });
-        showToast(`${friend} paid back ${formatINR(amt)}! Added to ${bank ? bank.name : 'Bank'}`, '🤝');
+        showToast(`${friend} paid back ${formatINR(amt)}!`, '🤝');
       } else if (action === 'I_PAID_THEM') {
         if (bank) bank.balance = (Number(bank.balance) || 0) - amt;
         let rem = amt;
@@ -2524,7 +2622,7 @@
           date: today,
           type: 'EXPENSE',
           totalAmount: amt,
-          myExpenseAmount: 0, // Already counted in expense when friend paid my share
+          myExpenseAmount: 0,
           category: 'Loan / Paid for Friend',
           categoryEmoji: '📤',
           paymentMode: mode,
@@ -2622,23 +2720,18 @@
     window.addEventListener('DOMContentLoaded', () => {
       renderAll();
 
-      // Tab navigation
       document.querySelectorAll('.nav-tab-btn').forEach(btn => {
         btn.addEventListener('click', () => switchTab(btn.getAttribute('data-tab')));
       });
       document.getElementById('cardGoToDebts').addEventListener('click', () => switchTab('debts'));
       document.getElementById('btnSeeAllTx').addEventListener('click', () => switchTab('transactions'));
-
-      // Month filter
       document.getElementById('globalMonthFilter').addEventListener('change', renderAll);
 
-      // Quick Header Buttons
       document.getElementById('btnQuickExpense').addEventListener('click', () => openTransactionModal('EXPENSE', false));
       document.getElementById('btnQuickSplit').addEventListener('click', () => openTransactionModal('EXPENSE', true));
       document.getElementById('btnQuickPayCC').addEventListener('click', () => openPayCCModal());
       document.getElementById('btnTxAddNew').addEventListener('click', () => openTransactionModal('EXPENSE', false));
 
-      // Transaction Modal Controls
       document.getElementById('btnCloseTxModal').addEventListener('click', () => document.getElementById('modalTransaction').classList.add('hidden'));
       document.getElementById('btnCancelTxModal').addEventListener('click', () => document.getElementById('modalTransaction').classList.add('hidden'));
       document.querySelectorAll('.tx-type-pill').forEach(btn => {
@@ -2663,11 +2756,9 @@
         document.getElementById('wrapPaybackFriendSelect').classList.toggle('hidden', !e.target.checked);
       });
 
-      // Split Builder
       document.getElementById('txSplitToggle').addEventListener('change', (e) => {
         document.getElementById('splitBuilderBody').classList.toggle('hidden', !e.target.checked);
-        if (e.target.checked && currentSplitParticipants.length === 0) {
-          currentSplitParticipants = [{ friend: 'Arun', amount: 0 }, { friend: 'Karthik', amount: 0 }];
+        if (e.target.checked) {
           recalculateEqualSplit();
         }
       });
@@ -2713,13 +2804,11 @@
 
       document.getElementById('formTransaction').addEventListener('submit', handleTransactionSubmit);
 
-      // Transaction filters
       ['txSearchInput', 'txTypeFilter', 'txModeFilter', 'txCategoryFilter', 'txAccountFilter'].forEach(id => {
         document.getElementById(id).addEventListener('input', renderTransactionsView);
         document.getElementById(id).addEventListener('change', renderTransactionsView);
       });
 
-      // Pay CC Bill Modal
       document.getElementById('btnDashPayCC').addEventListener('click', () => openPayCCModal());
       document.getElementById('btnAccPayCCBill').addEventListener('click', () => openPayCCModal());
       document.getElementById('btnClosePayCC').addEventListener('click', () => document.getElementById('modalPayCC').classList.add('hidden'));
@@ -2734,7 +2823,7 @@
         const bankId = document.getElementById('payCCBankSelect').value;
         const amt = Number(document.getElementById('payCCAmount').value) || 0;
         const mode = document.getElementById('payCCMode').value;
-        if (amt <= 0) return;
+        if (amt <= 0 || !cardId || !bankId) return;
 
         const card = state.creditCards.find(c => c.id === cardId);
         const bank = state.banks.find(b => b.id === bankId);
@@ -2760,10 +2849,9 @@
         saveState();
         renderAll();
         document.getElementById('modalPayCC').classList.add('hidden');
-        showToast(`Paid ${formatINR(amt)} towards ${card ? card.name : 'Card'}! Shared limit restored.`, '💳');
+        showToast(`Paid ${formatINR(amt)} towards ${card ? card.name : 'Card'}!`, '💳');
       });
 
-      // Bank Modal
       function openBankModal(bankId = '') {
         const modal = document.getElementById('modalBank');
         modal.classList.remove('hidden');
@@ -2772,9 +2860,9 @@
         document.getElementById('bankEmoji').value = b ? b.emoji : '🏦';
         document.getElementById('bankName').value = b ? b.name : '';
         document.getElementById('bankType').value = b ? b.type : 'Savings & UPI';
-        document.getElementById('bankBalance').value = b ? b.balance : 0;
+        document.getElementById('bankBalance').value = b ? b.balance : '';
         document.getElementById('bankColor').value = b?.color || 'from-blue-600/40 via-indigo-700/40 to-slate-900';
-        document.getElementById('btnDeleteBank').classList.toggle('hidden', !b || state.banks.length <= 1);
+        document.getElementById('btnDeleteBank').classList.toggle('hidden', !b);
       }
       document.getElementById('btnDashAddBank').addEventListener('click', () => openBankModal(''));
       document.getElementById('btnAccAddBank').addEventListener('click', () => openBankModal(''));
@@ -2811,7 +2899,6 @@
         showToast('Account removed', '🗑️');
       });
 
-      // Credit Card Modal
       function openCCModal(ccId = '') {
         const modal = document.getElementById('modalCC');
         modal.classList.remove('hidden');
@@ -2868,15 +2955,15 @@
         showToast('Credit card removed', '🗑️');
       });
 
-      // Pool Modal
       function openPoolModal(poolId = '') {
         const modal = document.getElementById('modalPool');
         modal.classList.remove('hidden');
         const p = state.creditPools.find(x => x.id === poolId);
         document.getElementById('poolEditId').value = p ? p.id : '';
         document.getElementById('poolName').value = p ? p.name : '';
-        document.getElementById('poolLimit').value = p ? p.totalLimit : 100000;
+        document.getElementById('poolLimit').value = p ? p.totalLimit : '';
       }
+      document.getElementById('btnDashAddPool').addEventListener('click', () => openPoolModal(''));
       document.getElementById('btnAccAddPool').addEventListener('click', () => openPoolModal(''));
       document.getElementById('btnClosePoolModal').addEventListener('click', () => document.getElementById('modalPool').classList.add('hidden'));
       document.getElementById('btnCancelPool').addEventListener('click', () => document.getElementById('modalPool').classList.add('hidden'));
@@ -2886,7 +2973,7 @@
         const payload = {
           id: id || ('pool_' + Date.now()),
           name: document.getElementById('poolName').value.trim(),
-          totalLimit: Number(document.getElementById('poolLimit').value) || 100000
+          totalLimit: Number(document.getElementById('poolLimit').value) || 0
         };
         if (id) {
           const idx = state.creditPools.findIndex(x => x.id === id);
@@ -2897,10 +2984,9 @@
         saveState();
         renderAll();
         document.getElementById('modalPool').classList.add('hidden');
-        showToast(`Updated shared pool limit to ${formatINR(payload.totalLimit)}!`, '🔗');
+        showToast(`Saved pool ${payload.name} (${formatINR(payload.totalLimit)})!`, '🔗');
       });
 
-      // Debt & Settle Up Modal
       document.getElementById('btnDashAddDebt').addEventListener('click', () => openSettleFriendModal('', 'LEND_MONEY'));
       document.getElementById('btnDebtSplitExpense').addEventListener('click', () => openTransactionModal('EXPENSE', true));
       document.getElementById('btnDebtFriendPaidMyShare').addEventListener('click', () => openTransactionModal('FRIEND_PAID', false));
@@ -2912,7 +2998,6 @@
       document.getElementById('formSettleFriend').addEventListener('submit', handleSettleFriendSubmit);
       document.getElementById('debtStatusFilter').addEventListener('change', renderDebtsView);
 
-      // Custom Category Modal
       document.getElementById('btnAddCustomCategory').addEventListener('click', () => document.getElementById('modalCategory').classList.remove('hidden'));
       document.getElementById('btnCloseCategoryModal').addEventListener('click', () => document.getElementById('modalCategory').classList.add('hidden'));
       document.getElementById('formCategory').addEventListener('submit', (e) => {
@@ -2929,7 +3014,6 @@
         showToast(`Added category ${emoji} ${name}!`, '🏷️');
       });
 
-      // Global Delegated Clicks for Dynamic Cards
       document.body.addEventListener('click', (e) => {
         const editBank = e.target.closest('[data-edit-bank]');
         if (editBank) { openBankModal(editBank.getAttribute('data-edit-bank')); return; }
@@ -2959,7 +3043,17 @@
         if (delTx) { deleteTransaction(delTx.getAttribute('data-delete-tx')); return; }
       });
 
-      // File Backup & Restore Controls
+      document.getElementById('btnGhSaveSettings').addEventListener('click', () => {
+        state.githubSync.token = document.getElementById('ghTokenInput').value.trim();
+        state.githubSync.gistId = document.getElementById('ghGistIdInput').value.trim();
+        state.githubSync.autoSync = document.getElementById('ghAutoSyncToggle').checked;
+        saveState(true);
+        renderCloudSyncView();
+        showToast('Saved GitHub Sync config!', '💾');
+      });
+      document.getElementById('btnGhCreateGist').addEventListener('click', createNewGitHubGist);
+      document.getElementById('btnGhPushNow').addEventListener('click', () => pushToGitHubGist(false));
+      document.getElementById('btnGhPullNow').addEventListener('click', pullFromGitHubGist);
 
       document.getElementById('btnExportJSON').addEventListener('click', () => {
         const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
@@ -2969,7 +3063,7 @@
         a.download = `my-money-backup-${new Date().toISOString().slice(0, 10)}.json`;
         a.click();
         URL.revokeObjectURL(url);
-        showToast('Downloaded JSON backup file!', '📥');
+        showToast('Exported JSON file!', '📥');
       });
 
       document.getElementById('inputImportJSON').addEventListener('change', (e) => {
@@ -2983,15 +3077,44 @@
               state = parsed;
               saveState();
               renderAll();
-              showToast('Restored database from JSON backup!', '🎉');
+              showToast('Imported JSON file!', '🎉');
             }
           } catch (err) {
-            showToast('Invalid JSON backup file', '❌');
+            showToast('Invalid JSON file', '❌');
           }
         };
         reader.readAsText(file);
       });
 
+      document.getElementById('btnExportCSV').addEventListener('click', () => {
+        const headers = ['Date', 'Type', 'Total Amount', 'My Personal Expense', 'Category', 'Payment Mode', 'Source', 'Note'];
+        const rows = state.transactions.map(t => [
+          t.date,
+          t.type,
+          t.totalAmount,
+          t.myExpenseAmount ?? t.totalAmount,
+          `"${(t.category || '').replace(/"/g, '""')}"`,
+          `"${(t.paymentMode || '').replace(/"/g, '""')}"`,
+          `"${getAccountLabel(t.sourceKind, t.accountId).replace(/"/g, '""')}"`,
+          `"${(t.note || '').replace(/"/g, '""')}"`
+        ]);
+        const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `my-money-transactions-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Exported CSV!', '📊');
+      });
+
+      document.getElementById('btnClearAllZero').addEventListener('click', () => {
+        state = getEmptyState();
+        saveState();
+        renderAll();
+        showToast('All data wiped clean!', '✨');
+      });
     });
   </script>
 </body>
